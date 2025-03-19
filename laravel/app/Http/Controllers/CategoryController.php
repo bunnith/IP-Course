@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     // GET /categories
     public function getCategories()
-    {
+    { 
         return response()->json(Category::all(), 200);
     }
 

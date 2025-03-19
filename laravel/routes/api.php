@@ -21,9 +21,9 @@ Route::controller(CategoryController::class)->prefix('categories')->group(functi
 });
 
 Route::controller(ProductController::class)->prefix('products')->group(function() {
-    Route::get('/', 'index'); // GET /products ✅ Correct
-    Route::post('/', 'store'); // POST /products ✅ Fix: Change 'createProduct' → 'store'
-    Route::get('{productId}', 'show'); // GET /products/{productId} ✅ Fix: Change 'getProduct' → 'show'
-    Route::patch('{productId}', 'update'); // PATCH /products/{productId} ✅ Fix: Change 'updateProduct' → 'update'
-    Route::delete('{productId}', 'destroy'); // DELETE /products/{productId} ✅ Fix: Change 'deleteProduct' → 'destroy'
+    Route::get('/', 'index');  
+    Route::post('/', 'store');  
+    Route::get('{productId}', 'show');  
+    Route::patch('{productId}', 'update');  
+    Route::delete('{productId}', 'destroy'); 
 });
