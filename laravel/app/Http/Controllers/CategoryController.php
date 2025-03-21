@@ -1,66 +1,92 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
-    // GET /categories
-    public function getCategories()
-    { 
-        return response()->json(Category::all(), 200);
+    // Get all categories - GET /api/categories
+    public function getCategories(): JsonResponse
+    {
+        $categories = Category::all();
+        return response()->json([
+            "message" => "Getting list of categories",
+            "data" => $categories
+        ], 200);
     }
 
-    // POST /categories
-    public function createCategory(Request $request)
+    // Create a new category - POST /api/categories
+    public function createCategory(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255'
         ]);
 
         $category = Category::create($validated);
-        return response()->json($category, 201);
+
+        return response()->json([
+            "message" => "Creating a new category",
+            "data" => $category
+        ], 201);
     }
 
-    // GET /categories/{categoryId}
-    public function getCategory($categoryId)
+    // Get a specific category - GET /api/categories/{categoryId}
+    public function getCategory($categoryId): JsonResponse
     {
-        try {
-            $category = Category::findOrFail($categoryId);
-            return response()->json($category, 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Category not found'], 404);
+        $category = Category::find($categoryId);
+
+        if (!$category) {
+            return response()->json([
+                "message" => "Category not found"
+            ], 404);
         }
+
+        return response()->json([
+            "message" => "Getting category based on given categoryId",
+            "data" => $category
+        ], 200);
     }
 
-    // PATCH /categories/{categoryId}
-    public function updateCategory(Request $request, $categoryId)
+    // Update a category - PATCH /api/categories/{categoryId}
+    public function updateCategory(Request $request, $categoryId): JsonResponse
     {
-        try {
-            $validated = $request->validate([
-                'name' => 'sometimes|string|max:255',
-            ]);
+        $category = Category::find($categoryId);
 
-            $category = Category::findOrFail($categoryId);
-            $category->update($validated);
-            return response()->json($category, 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Category not found'], 404);
+        if (!$category) {
+            return response()->json([
+                "message" => "Category not found"
+            ], 404);
         }
+
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255'
+        ]);
+
+        $category->update($validated);
+
+        return response()->json([
+            "message" => "Updating category based on given categoryId",
+            "data" => $category
+        ], 200);
     }
 
-    // DELETE /categories/{categoryId}
-    public function deleteCategory($categoryId)
+    // Delete a category - DELETE /api/categories/{categoryId}
+    public function deleteCategory($categoryId): JsonResponse
     {
-        try {
-            $category = Category::findOrFail($categoryId);
-            $category->delete();
-            return response()->json(['message' => 'Category deleted successfully'], 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Category not found'], 404);
+        $category = Category::find($categoryId);
+
+        if (!$category) {
+            return response()->json([
+                "message" => "Category not found"
+            ], 404);
         }
+
+        $category->delete();
+
+        return response()->json([
+            "message" => "Deleting category based on given categoryId"
+        ], 200);
     }
 }

@@ -1,29 +1,28 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 
-// Route::get('/categories', [CategoryController::class, 'getCategories']);
-
+// Define the route for the /user endpoint with authentication
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::controller(CategoryController::class)->prefix('categories')->group(function() {
-    Route::get('/', 'getCategories'); // GET /categories
-    Route::post('/', 'createCategory'); // POST /categories
-    Route::get('{categoryId}', 'getCategory');
-    Route::patch('{categoryId}', 'updateCategory');
-    Route::delete('{categoryId}', 'deleteCategory'); // DELETE /categories/{categoryId}
-
+// Group the category-related routes under the 'categories' prefix
+Route::controller(CategoryController::class)->prefix('categories')->group(function () {
+    Route::get('/', 'getCategories');
+    Route::post('/', 'createCategory');
+    Route::get('/{categoryId}', 'getCategory');
+    Route::patch('/{categoryId}', 'updateCategory');
+    Route::delete('/{categoryId}', 'deleteCategory');
 });
 
-Route::controller(ProductController::class)->prefix('products')->group(function() {
-    Route::get('/', 'index');  
-    Route::post('/', 'store');  
-    Route::get('{productId}', 'show');  
-    Route::patch('{productId}', 'update');  
-    Route::delete('{productId}', 'destroy'); 
+// Group the product-related routes under the 'products' prefix
+Route::controller(ProductController::class)->prefix('products')->group(function () {
+    Route::get('/', 'getProducts');
+    Route::post('/', 'createProduct');
+    Route::get('/{productId}', 'getProduct');
+    Route::patch('/{productId}', 'updateProduct');
+    Route::delete('/{productId}', 'deleteProduct');
 });

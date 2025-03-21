@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','pricing','category_id'];
-    // Relationships
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
+    protected $table = 'customer';
+    protected $fillable = ['name', 'email', 'phone'];
 
     public function carts()
     {
@@ -26,8 +22,13 @@ class Product extends Model
         return $this->hasMany(Wishlist::class);
     }
 
-    public function orderProducts()
+    public function orders()
     {
-        return $this->hasMany(OrderProduct::class);
+        return $this->hasMany(Order::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }
