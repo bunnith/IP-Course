@@ -14,14 +14,14 @@ class CustomerSeeder extends Seeder
     public function run(): void
     {
         Customer::create([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
+            'name' => 'Bun Nith',
+            'email' => 'Nith@example.com',
             'phone' => '1234567890'
         ]);
 
         Customer::create([
-            'name' => 'Jane Smith',
-            'email' => 'jane@example.com',
+            'name' => 'Nay Smith',
+            'email' => 'Smith@example.com',
             'phone' => '0987654321'
         ]);
     }

@@ -4,31 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+return new class extends Migration {
+    public function up()
     {
         Schema::create('payment', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('payment_date');
+            $table->timestamp('payment_date')->useCurrent();
             $table->string('payment_method', 100);
             $table->decimal('amount', 10, 2);
-            $table->unsignedBigInteger('order_id')->nullable();
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->timestamps();
+            $table->foreignId('order_id')->constrained('order')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained('customer')->Delete('cascade');
 
-            $table->foreign('order_id')->references('id')->on('order')->onDelete('set null');
-            $table->foreign('customer_id')->references('id')->on('customer')->onDelete('set null');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('payment');
     }
