@@ -55,10 +55,22 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+           'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
             'throw' => false,
             'report' => false,
         ],
+'minio' => [
+'driver' => 's3',
+'key' => env('MINIO_ACCESS_KEY_ID'), // matches .env
+'secret' => env('MINIO_SECRET_ACCESS_KEY'), // matches .env
+'region' => env('MINIO_REGION', 'us-east-1'),
+'bucket' => env('MINIO_BUCKET'),
+'endpoint' => env('MINIO_ENDPOINT'),
+'use_path_style_endpoint' => true,
+'url' => env('MINIO_PUBLIC_URL'),
+],
+
+
 
     ],
 
@@ -76,5 +88,7 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+
+
 
 ];

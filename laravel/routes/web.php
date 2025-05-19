@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UploadController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view(view: 'welcome');
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {
@@ -16,5 +18,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/upload', [UploadController::class, 'showForm'])->name('upload.form');
+Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
+
+Route::get('/upload-image', [ImageController::class, 'create']);
+Route::post('/upload-image', [ImageController::class, 'store'])->name('upload.image');
+Route::get('/gallery', [ImageController::class, 'gallery'])->name('gallery');
 
 require __DIR__.'/auth.php';
